@@ -1,0 +1,187 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="https://getbootstrap.com/docs/4.1/assets/img/favicons/favicon.ico">
+
+    <title>{{head}}</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/blog/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'Blog%20Template%20for%20Bootstrap_files/bootstrap.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'Blog%20Template%20for%20Bootstrap_files/css.css' %}" rel="stylesheet">
+    <link href="{% static 'Blog%20Template%20for%20Bootstrap_files/blog.css' %}" rel="stylesheet">
+    <style>
+
+
+.aboutus-area {
+    padding-top:120px;
+     padding-bottom:120px;
+}
+/*-- aboutus Image --*/
+.aboutus-image {
+  margin-right: 52px;
+  width: 318px; }
+  @media only screen and (min-width: 992px) and (max-width: 1200px) {
+    .aboutus-image {
+      margin-right: 35px;
+      width: 345px; } }
+  @media only screen and (min-width: 768px) and (max-width: 991px) {
+    .aboutus-image {
+      margin-bottom: 30px;
+      float: none; } }
+  @media only screen and (max-width: 767px) {
+    .aboutus-image {
+      margin-bottom: 30px;
+      margin-right: 0;
+      float: none;
+      width: auto; } }
+  .aboutus-image img {
+    width: 100%; }
+
+/*-- aboutus Content --*/
+.aboutus-content h1 {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 40px;
+  margin-bottom: 2px; }
+  @media only screen and (max-width: 479px) {
+    .aboutus-content h1 {
+      font-size: 30px;
+      line-height: 30px; } }
+  .aboutus-content h1 span {
+    color: #71b100; }
+
+.aboutus-content h4 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #9b9b9b;
+  margin-bottom: 23px; }
+
+.aboutus-content p {
+  font-size: 16px;
+  line-height: 27px; }
+  
+ /*-- counter --*/
+.counter {
+  border: 1px solid #eeeeee;
+  margin-top: 32px;
+  float: left;
+  width: 100%; }
+  .counter .single-counter {
+    float: left;
+    width: 25%;
+    padding: 28px 15px 28px; }
+    @media only screen and (max-width: 767px) {
+      .counter .single-counter {
+        width: 50%; }
+        .counter .single-counter:nth-child(3) {
+          border-top: 1px solid #eeeeee;
+          border-left: 0px solid #eeeeee; }
+        .counter .single-counter:nth-child(4) {
+          border-top: 1px solid #eeeeee; } }
+    .counter .single-counter + .single-counter {
+      border-left: 1px solid #eeeeee; }
+    .counter .single-counter h2 {
+      font-size: 30px;
+      color: #71b100;
+      line-height: 24px;
+      font-family: "Open Sans", sans-serif;
+      margin-bottom: 8px; }
+    .counter .single-counter p {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 0;
+      color: #8f8f8f; }
+    </style>
+  </head>
+
+  <body data-new-gr-c-s-check-loaded="8.871.0" data-gr-ext-installed="">
+    {% include 'messages.html' %}
+    <div class="container">
+      <header class="blog-header py-3">
+        <div class="row flex-nowrap justify-content-between align-items-center">
+          <div class="col-4 pt-1">
+            <a class="text-muted" href="{% url 'index' %}">RTS</a>
+          </div>
+          <div class="col-4 text-center">
+            <a class="blog-header-logo text-dark" href="{% url 'index' %}">Raise Ticket System!</a>
+          </div>
+          <div class="col-4 d-flex justify-content-end align-items-center">
+            <a class="text-muted" href="{% url 'search' %}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-3"><circle cx="10.5" cy="10.5" r="7.5"></circle><line x1="21" y1="21" x2="15.8" y2="15.8"></line></svg>
+            </a>
+            {%if user.is_authenticated %}
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'dashboard' %}">Dashboard</a>
+            {%else%}
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'register'%}">Sign up</a>
+            {%endif%}
+          </div>
+        </div>
+      </header>
+
+      <div class="nav-scroller py-1 mb-2">
+        <nav class="nav d-flex justify-content-between">
+          <a class="p-2 text-muted" href="{% url 'createticket' %}">Create a ticket!</a>
+          <a class="p-2 text-muted" href="{% url 'feedback' %}">Feedback</a>
+          <a class="p-2 text-muted" href="{% url 'contact' %}">Contact Us</a>
+          <a class="p-2 text-muted" href="{% url 'about' %}">About Developer!</a>
+          {%if user.is_authenticated %}
+          <a class="p-2 text-muted" href="{% url 'dashboard' %}">Dashboard</a>
+          <a class="p-2 text-muted" href="{% url 'logouts' %}">Logout</a>
+          {%else%}
+          <a class="p-2 text-muted" href="{% url 'login'%}">Login</a>
+          {% endif%}
+        </nav>
+      </div>
+      <div class="aboutus-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                <div class="col-md-4 col-sm-6 col-xs-12">    
+                    <div class="aboutus-image float-left hidden-sm"><img src="https://devitems.com/preview/sopnovilla/sopnovilla/img/about/1.jpg" alt=""></div>
+                    </div>
+                <div class="col-md-8 col-sm-6 col-xs-12">
+                    <div class="aboutus-content ">
+                        <h1>About <span>EKE SEL</span></h1>
+                        <h4>Ekaansh Sahni</h4>
+                        <p>You can google him as “ekesel”. Developing strong relationships is the foundation of everything he does, both professionally and personally. He does the back end of our Online Presence. He is due to graduate from Lovely Professional University in 2023. Ever since he was a high school student, He had been passionate about coding and development. He loves competitive coding and has been a part of it since a year now.He has earlier created a online tech. blog while he was in high school which gained popularity and had 100-200 visitors visiting per week. He has made a few projects which are available on his GitHub. He has created an Exam Conducting Module where students can give test or teachers can generate random set of questions for taking test. Also they can store scores there of each student as it has a login system with it. He has created a Google API Home Assistant by using Raspberry Pi. He named it the EkePi.</p>
+                        
+                    </div>
+                </div>    
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="blog-footer">
+        <p>Raise Ticket System built by <a href="#">Eke Sel</a> with <a href="#">Django and Bootstrap</a>.</p>
+        <p>
+          <a href="#">Back to top</a>
+        </p>
+      </footer>
+  
+      <!-- Bootstrap core JavaScript
+      ================================================== -->
+      <!-- Placed at the end of the document so the pages load faster -->
+      <script src="{% static 'Blog%20Template%20for%20Bootstrap_files/jquery-3.js' %}" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+      <script src="{% static 'Blog%20Template%20for%20Bootstrap_files/popper.js' %}"></script>
+      <script src="{% static 'Blog%20Template%20for%20Bootstrap_files/bootstrap.js' %}"></script>
+      <script src="{% static 'Blog%20Template%20for%20Bootstrap_files/holder.js' %}"></script>
+      <script>
+        Holder.addTheme('thumb', {
+          bg: '#55595c',
+          fg: '#eceeef',
+          text: 'Thumbnail'
+        });
+      </script>
+    
+  
+  <svg xmlns="http://www.w3.org/2000/svg" width="200" height="250" viewBox="0 0 200 250" preserveAspectRatio="none" style="display: none; visibility: hidden; position: absolute; top: -100%; left: -100%;"><defs><style type="text/css"></style></defs><text x="0" y="13" style="font-weight:bold;font-size:13pt;font-family:Arial, Helvetica, Open Sans, sans-serif">Thumbnail</text></svg></body></html>

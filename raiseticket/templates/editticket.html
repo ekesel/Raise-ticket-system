@@ -1,0 +1,57 @@
+{%extends 'base.html'%}
+{%load static %}
+{%block body%}
+<main role="main" class="container">
+    <div class="row">
+      <div class="col-md-8 blog-main">
+        <h3 class="pb-3 mb-4 font-italic border-bottom">
+          From {{old.auther}}
+        </h3>
+
+        <div class="blog-post">
+          <h2 class="blog-post-title">{{old.title}}</h2>
+          <p class="blog-post-meta">{{old.time_upload}} by <a href="{% url 'post' old.id old.slug %}">{{old.auther}}</a></p>
+
+          <p>{{old.overview}}</p>
+          <hr>
+          <p>{{old.body_text|safe}}</p>
+          
+        </div><!-- /.blog-post -->
+        <div class="blog-post">
+            <h2 class="blog-post-title">Edit This Ticket!</h2>
+            <form method="POST">
+                {%csrf_token%}
+                <div class="form-row">
+                  <div class="col-md-4 mb-3">
+                    <label for="validationServer01">Title Of Ticket</label>
+                    <input type="text" name="title" class="form-control is-valid" id="validationServer01" placeholder="{{old.title}}" required>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <label for="validationServer02">Overview</label>
+                    <input type="text" name="overview" class="form-control is-valid" id="validationServer02" placeholder="{{old.overview}}" required>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="col-md-6 mb-3">
+                    <label for="validationServer03">Slug of Ticket</label>
+                    <input type="text" name="slug" class="form-control is-invalid" id="validationServer03" placeholder="{{old.slug}}" required>
+                  </div>
+                </div>
+                  <div class="form-row">
+                  <div class="col-md-12">
+                    <label for="validationServer05">Ticket!</label>
+                    <textarea name="body_text" id="" class="form-control is-invalid" required>{{old.body_text}}</textarea>
+                  </div>
+                </div>
+                <br>
+                <button class="btn btn-primary" type="submit">Submit</button>
+                <script>
+                    CKEDITOR.replace( 'body_text' );
+                </script>
+              </form>
+        </div>
+</div>
+</div>
+</main>
+
+{%endblock%}

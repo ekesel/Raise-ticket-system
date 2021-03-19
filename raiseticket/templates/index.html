@@ -1,0 +1,44 @@
+{%extends 'base.html'%}
+{%load static %}
+{%block body%}
+{%for ticket in tickets%}
+      <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+        <div class="col-md-6 px-0">
+          <h1 class="display-4 font-italic">{{ticket.title}}</h1>
+          <p class="lead my-3">{{ticket.overview}}</p>
+          <p class="lead mb-0"><a href="{% url 'post' ticket.id ticket.slug %}" class="text-white font-weight-bold">Continue reading...</a></p>
+        </div>
+      </div>
+{%endfor%}
+<main role="main" class="container">
+  <div class="row">
+          <nav class="blog-pagination">
+            {% if posts.has_previous %}
+            <a class="btn btn-outline-primary" href="?page={{posts.previous_page_number}}">Older</a>
+            {% endif %}
+            {% if posts.has_next %}
+            <a class="btn btn-outline-secondary disabled" href="?page={{posts.next_page_number}}">Newer</a>
+            {% endif %}
+          </nav>
+
+
+        <aside class="col-md-4 blog-sidebar">
+          <div class="p-3 mb-3 bg-light rounded">
+            <h4 class="font-italic">About</h4>
+            <p class="mb-0"><a href="{% url 'about' %}">Click Here!</a></p>
+          </div>
+
+          <div class="p-3">
+            <h4 class="font-italic">Elsewhere</h4>
+            <ol class="list-unstyled">
+              <li><a href="https://github.com/ekesel/">GitHub</a></li>
+              <li><a href="instagram.com/eke.sel/">Instagram</a></li>
+              <li><a href="facebook.com/ekaanshsahni">Facebook</a></li>
+            </ol>
+          </div>
+        </aside><!-- /.blog-sidebar -->
+
+      </div><!-- /.row -->
+
+    </main><!-- /.container -->
+{%endblock%}

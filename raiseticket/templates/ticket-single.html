@@ -1,0 +1,234 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="https://getbootstrap.com/docs/4.1/assets/img/favicons/favicon.ico">
+
+    <title>{{head}}</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/blog/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'Blog%20Template%20for%20Bootstrap_files/bootstrap.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'Blog%20Template%20for%20Bootstrap_files/css.css' %}" rel="stylesheet">
+    <link href="{% static 'Blog%20Template%20for%20Bootstrap_files/blog.css' %}" rel="stylesheet">
+    <script src="//cdn.ckeditor.com/4.16.0/full/ckeditor.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .post-comments {
+            padding-bottom: 9px;
+            margin: 5px 0 5px;
+          }
+          
+          .comments-nav {
+            border-bottom: 1px solid #eee;
+            margin-bottom: 5px;
+          }
+          
+          .post-comments .comment-meta {
+            border-bottom: 1px solid #eee;
+            margin-bottom: 5px;
+          }
+          
+          .post-comments .media {
+            border-left: 1px dotted #000;
+            border-bottom: 1px dotted #000;
+            margin-bottom: 5px;
+            padding-left: 10px;
+          }
+          
+          .post-comments .media-heading {
+            font-size: 12px;
+            color: grey;
+          }
+          
+          .post-comments .comment-meta a {
+            font-size: 12px;
+            color: grey;
+            font-weight: bolder;
+            margin-right: 5px;
+          }
+    </style>
+  </head>
+
+  <body data-new-gr-c-s-check-loaded="8.871.0" data-gr-ext-installed="">
+
+    <div class="container">
+      <header class="blog-header py-3">
+        <div class="row flex-nowrap justify-content-between align-items-center">
+          <div class="col-4 pt-1">
+            <a class="text-muted" href="{% url 'index' %}">RTS</a>
+          </div>
+          <div class="col-4 text-center">
+            <a class="blog-header-logo text-dark" href="{% url 'index' %}">Raise Ticket System!</a>
+          </div>
+          <div class="col-4 d-flex justify-content-end align-items-center">
+            <a class="text-muted" href="{% url 'search' %}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-3"><circle cx="10.5" cy="10.5" r="7.5"></circle><line x1="21" y1="21" x2="15.8" y2="15.8"></line></svg>
+            </a>
+            {%if user.is_authenticated %}
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'dashboard' %}">Dashboard</a>
+            {%else%}
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'register'%}">Sign up</a>
+            {%endif%}
+          </div>
+        </div>
+      </header>
+
+      <div class="nav-scroller py-1 mb-2">
+        <nav class="nav d-flex justify-content-between">
+          <a class="p-2 text-muted" href="{% url 'createticket' %}">Create a ticket!</a>
+          <a class="p-2 text-muted" href="{% url 'feedback' %}">Feedback</a>
+          <a class="p-2 text-muted" href="{% url 'contact' %}">Contact Us</a>
+          <a class="p-2 text-muted" href="{% url 'about' %}">About Developer!</a>
+          {%if user.is_authenticated %}
+          <a class="p-2 text-muted" href="{% url 'dashboard' %}">Dashboard</a>
+          <a class="p-2 text-muted" href="{% url 'logouts' %}">Logout</a>
+          {%else%}
+          <a class="p-2 text-muted" href="{% url 'login'%}">Login</a>
+          {% endif%}
+        </nav>
+      </div>
+      {% include 'messages.html' %}
+
+<main role="main" class="container">
+    <div class="row">
+      <div class="col-md-8 blog-main">
+        <h3 class="pb-3 mb-4 font-italic border-bottom">
+          From {{post.auther}}
+        </h3>
+
+        <div class="blog-post">
+          <h2 class="blog-post-title">{{post.title}}</h2>
+          <p class="blog-post-meta">{{post.time_upload}} by <a href="{% url 'post' post.id post.slug %}">{{post.auther}}</a></p>
+
+          <p>{{post.overview}}</p>
+          <hr>
+          <p>{{post.body_text|safe}}</p>
+          
+        </div><!-- /.blog-post -->
+
+            <div class="pt-5">
+                <div class="section-title">
+                  <h2 class="mb-5">Wanna Help Him?</h2>
+                </div>
+                <ul class="comment-list">
+                  {% for cm in comments %}
+                  <li class="comment">
+                    <div class="comment-body">
+                      <h3>{{cm.0.user.username}}</h3>
+                      <div class="meta">{{cm.0.time}}</div>
+                      <p>{{cm.0.comm}}</p>
+                      {% if user.is_authenticated %}
+                      <p id="{{cm.0.id}}"><button onclick="ReplyForm('{{cm.0.id}}')" class="reply">Reply</button></p>
+                      {%endif%}
+                    </div>
+  
+                    <ul class="children">
+                      {% for subc in cm.1 %}
+                      <li class="comment">
+                        <div class="comment-body">
+                          <h3>{{subc.user.username}}</h3>
+                          <div class="meta">{{subc.time}}</div>
+                          <p>{{subc.comm}}</p>
+                        </div>
+                      </li>
+                      {% endfor %}
+                    </ul>
+                  </li>
+                  {% endfor %}        
+                </ul>
+                <!-- END comment-list -->
+                <script type="text/javascript">
+                  function ReplyForm(id) {
+                    let elm = `<form method="POST" class="p-5 bg-light">
+                                {% csrf_token %}
+                    <div class="form-group">
+                    <input type='text' value='${id}' name = 'comm_id' style="display:none;" readonly/>
+                      <label for="message">Solution</label>
+                      <textarea name="comm" id="message" cols="30" rows="3" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <input type="submit" value="Post Solution" class="btn btn-primary py-3">
+                    </div>
+                  </form>`;
+                  document.getElementById(id).innerHTML = elm;
+                  CKEDITOR.replace( 'comm' );
+                  }
+                </script>
+                {% if user.is_authenticated %}
+                <div class="comment-form-wrap pt-5">
+                  <div class="section-title">
+                    <h2 class="mb-5">Add Solution</h2>
+                  </div>
+                  <form method="POST" class="p-5 bg-light">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <label for="message">Solution</label>
+                      <textarea name="comm" id="message" cols="30" rows="3" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <input type="submit" value="Post Comment" class="btn btn-primary py-3">
+                    </div>
+                    <script>
+                        CKEDITOR.replace( 'comm' );
+                    </script>
+                  </form>
+                </div>
+                {% else %}
+                <li><a href="{% url 'login' %}" class="nav-link text-right text-info">Sign In</a></li>
+                <li><a href="{% url 'register' %}" class="nav-link text-right text-info">Sign Up</a></li>
+                {% endif %}
+              </div>
+  
+</div>
+</div>
+</main>
+<footer class="blog-footer">
+    <p>Raise Ticket System built by <a href="#">Eke Sel</a> with <a href="#">Django and Bootstrap</a>.</p>
+    <p>
+      <a href="#">Back to top</a>
+    </p>
+  </footer>
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="{% static 'Blog%20Template%20for%20Bootstrap_files/jquery-3.js' %}" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+  <script src="{% static 'Blog%20Template%20for%20Bootstrap_files/popper.js' %}"></script>
+  <script src="{% static 'Blog%20Template%20for%20Bootstrap_files/bootstrap.js' %}"></script>
+  <script src="{% static 'Blog%20Template%20for%20Bootstrap_files/holder.js' %}"></script>
+  <script>
+    $('[data-toggle="collapse"]').on('click', function() {
+        var $this = $(this),
+                $parent = typeof $this.data('parent')!== 'undefined' ? $($this.data('parent')) : undefined;
+        if($parent === undefined) { /* Just toggle my  */
+            $this.find('.glyphicon').toggleClass('glyphicon-plus glyphicon-minus');
+            return true;
+        }
+    
+        /* Open element will be close if parent !== undefined */
+        var currentIcon = $this.find('.glyphicon');
+        currentIcon.toggleClass('glyphicon-plus glyphicon-minus');
+        $parent.find('.glyphicon').not(currentIcon).removeClass('glyphicon-minus').addClass('glyphicon-plus');
+    
+    });
+    
+  </script>
+  <script>
+    Holder.addTheme('thumb', {
+      bg: '#55595c',
+      fg: '#eceeef',
+      text: 'Thumbnail'
+    });
+  </script>
+
+
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="250" viewBox="0 0 200 250" preserveAspectRatio="none" style="display: none; visibility: hidden; position: absolute; top: -100%; left: -100%;"><defs><style type="text/css"></style></defs><text x="0" y="13" style="font-weight:bold;font-size:13pt;font-family:Arial, Helvetica, Open Sans, sans-serif">Thumbnail</text></svg></body></html>
